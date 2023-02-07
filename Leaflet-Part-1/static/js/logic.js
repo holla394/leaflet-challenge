@@ -8,24 +8,26 @@ const earthquake_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summar
 // };
 
 // function to_rgb(r, g, b) { return "#" + convert(r) + convert(g) + convert(b); };
-let color_list = ['#fff7ec',
-'#fdd49e',
-'#fc8d59',
-'#d7301f',
-'#7f0000'];
+let color_list = ['#f7fcfd',
+'#99d8c9',
+'#41ae76',
+'#238b45',
+'#006d2c',
+'00441b'];
 
 function color_function(depth) {
   if(depth<10)
-    return '#fff7ec';
+    return '#f7fcfd';
   else if(depth<30)
-    return '#fdd49e';
+    return '#99d8c9';
   else if(depth<50)
-    return '#fc8d59';
+    return '#41ae76';
   else if(depth<70)
-    return '#d7301f';
+    return '#238b45';
+  else if(depth<90)
+    return '#006d2c';
   else
-    return '#7f0000';
-
+    return '#00441b';
 };
 
 // Create the createMap function.
@@ -39,7 +41,7 @@ function createMap(locations) {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(myMap);
   locations.forEach(location => 
-    L.circleMarker(latlng = [location.geometry.coordinates[0], location.geometry.coordinates[1]], 
+    L.circleMarker(latlng = [location.geometry.coordinates[1], location.geometry.coordinates[0]], 
       {"radius":location.properties.mag*10,
         "color":color_function(location.geometry.coordinates[2]),
         "fillcolor":color_function(location.geometry.coordinates[2])}).addTo(myMap)
@@ -54,7 +56,7 @@ function createMap(locations) {
     legend.onAdd = function () {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            depth = [10,30,50,70,90];
+            depth = [0,10,30,50,70,90];
             labels = color_list;
 
         // loop through our density intervals and generate a label with a colored square for each interval
